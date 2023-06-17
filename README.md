@@ -1,2 +1,2 @@
-# keycloak-spi-kafka-event-listener
+# KeyCloak SPI Kafka event listener
 KeyCloak SPI for event listener using Kafka
