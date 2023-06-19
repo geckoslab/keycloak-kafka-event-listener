@@ -1,0 +1,51 @@
+apply plugin: "java"
+
+version = "0.0.1"
+sourceCompatibility = 17
+targetCompatibility = 17
+
+def jacksonVersion = "2.15.2"
+def slf4jVersion = "2.0.7"
+def keycloakVersion = "21.1.1"
+def kafkaVersion = "3.5.0"
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+  kafkaClient
+}
+
+dependencies {
+  // Jackson
+  compileOnly group: "com.fasterxml.jackson.core", name: "jackson-core", version: jacksonVersion
+
+  // SLF4J - Logging
+  compileOnly "org.slf4j:slf4j-api:${slf4jVersion}"
+
+  // Keycloak
+  compileOnly group: "org.keycloak", name: "keycloak-core", version: keycloakVersion
+  compileOnly group: "org.keycloak", name: "keycloak-server-spi", version: keycloakVersion
+  compileOnly group: "org.keycloak", name: "keycloak-server-spi-private", version: keycloakVersion
+
+  // Kafka
+  kafkaClient group: "org.apache.kafka", name: "kafka-clients", version: kafkaVersion
+  compileOnly group: "org.apache.kafka", name: "kafka-clients", version: kafkaVersion
+}
+
+jar {
+  manifest {
+    archivesBaseName = "geckoslab-keycloak-kafka-events-listener"
+
+    attributes(
+      "Implementation-Title": "KeyCloak SPI events listener using Kafka",
+      "Implementation-Version": project.version,
+      "Main-Class": "com.geckoslab.keycloak.providers.events.CustomUserStorageProviderFactory"
+    )
+  }
+
+  from {
+    configurations.kafkaClient.filter { it.name.endsWith('.jar') }.collect { zipTree(it) }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "Ubuntu",
+  "image": "mcr.microsoft.com/devcontainers/base:jammy",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils": {
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true
+    },
+    "ghcr.io/devcontainers/features/java": {
+      "installGradle": true,
+      "version": "17",
+      "jdkDistro": "oracle",
+      "gradleVersion": "7.5.1"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "EditorConfig.EditorConfig",
+        "Pkief.material-icon-theme",
+        "vscjava.vscode-gradle",
+        "wmanth.jar-viewer"
+      ],
+      "settings": {
+        "workbench.iconTheme": "material-icon-theme",
+        "java.configuration.updateBuildConfiguration": "automatic"
+      }
+    }
+  }
+}
