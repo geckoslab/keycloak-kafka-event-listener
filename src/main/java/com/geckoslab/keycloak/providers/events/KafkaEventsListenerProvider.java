@@ -46,7 +46,7 @@ public class KafkaEventsListenerProvider implements EventListenerProvider {
       userId,
       sessionId,
       time,
-      details
+      details = details.toString().replace("\"", "\\\"")
     );
     String topic = String.format("keycloak.event.%s", eventType);
     producer.send(new ProducerRecord<String, String>(topic, message));
