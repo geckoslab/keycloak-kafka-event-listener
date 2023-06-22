@@ -39,7 +39,15 @@ public class KafkaEventsListenerProvider implements EventListenerProvider {
     long time = event.getTime();
     Map<String, String> details = event.getDetails();
 
-    String message = String.format("{\"realmId\": \"%s\", \"clientId\": \"%s\", \"userId\": \"%s\", \"sessionId\": \"%s\", \"time\": \"%s\", \"details\": \"%s\"}", realmId, clientId, userId, sessionId, time, details);
+    String message = String.format(
+      "{\"realmId\": \"%s\", \"clientId\": \"%s\", \"userId\": \"%s\", \"sessionId\": \"%s\", \"time\": \"%s\", \"details\": \"%s\"}",
+      realmId,
+      clientId,
+      userId,
+      sessionId,
+      time,
+      details
+    );
     String topic = String.format("keycloak.event.%s", eventType);
     producer.send(new ProducerRecord<String, String>(topic, message));
   }
@@ -51,7 +59,13 @@ public class KafkaEventsListenerProvider implements EventListenerProvider {
     String resourcePath = event.getResourcePath();
     String representation = event.getRepresentation();
 
-    String message = String.format("{\"operationType\": \"%s\", \"resourceType\": \"%s\", \"resourcePath\": \"%s\", \"representation\": \"%s\"}", operationType, resourceType, resourcePath, representation);
+    String message = String.format(
+      "{\"operationType\": \"%s\", \"resourceType\": \"%s\", \"resourcePath\": \"%s\", \"representation\": \"%s\"}",
+      operationType,
+      resourceType,
+      resourcePath,
+      representation = representation.replace("\"", "\\\"")
+    );
     String topic = String.format("keycloak.admin.event.%s.%s", operationType, resourceType);
     producer.send(new ProducerRecord<String, String>(topic, message));
   }
