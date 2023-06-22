@@ -39,29 +39,9 @@ public class KafkaEventsListenerProvider implements EventListenerProvider {
     long time = event.getTime();
     Map<String, String> details = event.getDetails();
 
-    String message = String.format("{\n" +
-        "  \"type\": \"%s\",\n" +
-        "  \"realmId\": \"%s\",\n" +
-        "  \"clientId\": \"%s\",\n" +
-        "  \"userId\": \"%s\",\n" +
-        "  \"sessionId\": \"%s\",\n" +
-        "  \"time\": %d,\n" +
-        "  \"details\": %s\n" +
-        "}", eventType, realmId, clientId, userId, sessionId, time, details);
+    String message = String.format("{\"realmId\": \"%s\", \"clientId\": \"%s\", \"userId\": \"%s\", \"sessionId\": \"%s\", \"time\": \"%s\", \"details\": \"%s\"}", realmId, clientId, userId, sessionId, time, details);
     String topic = String.format("keycloak.event.%s", eventType);
-
     producer.send(new ProducerRecord<String, String>(topic, message));
-
-    logger.info("\n" +
-        "# ---------------- Event ----------------#\n" +
-        "[Event] Type: " + eventType + "\n" +
-        "[Event] RealmId: " + realmId + "\n" +
-        "[Event] ClientId: " + clientId + "\n" +
-        "[Event] UserId: " + userId + "\n" +
-        "[Event] SessionId: " + sessionId + "\n" +
-        "[Event] Time: " + time + "\n" +
-        "[Event] Details: " + details + "\n" +
-        "# ---------------------------------------#");
   }
 
   @Override
@@ -71,23 +51,9 @@ public class KafkaEventsListenerProvider implements EventListenerProvider {
     String resourcePath = event.getResourcePath();
     String representation = event.getRepresentation();
 
-    String message = String.format("{\n" +
-        "  \"operationType\": \"%s\",\n" +
-        "  \"resourceType\": \"%s\",\n" +
-        "  \"resourcePath\": \"%s\",\n" +
-        "  \"representation\": \"%s\"\n" +
-        "}", operationType, resourceType, resourcePath, representation);
+    String message = String.format("{\"operationType\": \"%s\", \"resourceType\": \"%s\", \"resourcePath\": \"%s\", \"representation\": \"%s\"}", operationType, resourceType, resourcePath, representation);
     String topic = String.format("keycloak.admin.event.%s.%s", operationType, resourceType);
-
     producer.send(new ProducerRecord<String, String>(topic, message));
-
-    logger.info("\n" +
-        "# ---------------- Admin Event ----------------#\n" +
-        "[Admin] Event Type: " + operationType + "\n" +
-        "[Admin] Resource Type: " + resourceType + "\n" +
-        "[Admin] Resource Path: " + resourcePath + "\n" +
-        "[Admin] Representation: " + representation + "\n" +
-        "# ---------------------------------------------#");
   }
 
   @Override
