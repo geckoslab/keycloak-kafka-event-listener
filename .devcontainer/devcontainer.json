@@ -21,12 +21,12 @@
         "GitHub.copilot",
         "GitHub.copilot-chat",
         "EditorConfig.EditorConfig",
-        "Pkief.material-icon-theme",
+        "vscode-icons-team.vscode-icons",
         "vscjava.vscode-gradle",
         "wmanth.jar-viewer"
       ],
       "settings": {
-        "workbench.iconTheme": "material-icon-theme",
+        "workbench.iconTheme": "vscode-icons",
         "java.configuration.updateBuildConfiguration": "automatic"
       }
     }
